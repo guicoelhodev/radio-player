@@ -4,23 +4,31 @@
 
 	const radioBrowser = RadioBrowser.getInstance();
 
-	let stationsPromise: Promise<TRadioList>;
+	const defaultStations = radioBrowser.stationsList;
 
-	stationsPromise = radioBrowser.searchStations({
-		language: 'english',
-		name: 'Chillofi'
-	});
+	let selectedRadio = $state(defaultStations[0]);
+
+	let stationsPromise: Promise<TRadioList> = $derived(
+		radioBrowser.searchStations({
+			name: selectedRadio.name,
+			limit: 1
+		})
+	);
+
 </script>
+
+{#each defaultStations as radio (radio.name)}
+	<button class="border bg-blue-200 p-4" onclick={() => (selectedRadio = radio)}
+		>{radio.slug}</button
+	>
+{/each}
 
 {#await stationsPromise}
 	<p>Carregando estações...</p>
 {:then stations}
 	<ul>
 		{#each stations as station (station.id)}
-			<li>
-				<strong>{station.name}</strong><br />
-				<audio controls src={station.urlResolved}></audio>
-			</li>
+			<audio autoplay src={station.urlResolved}></audio>
 		{/each}
 	</ul>
 {:catch error}
