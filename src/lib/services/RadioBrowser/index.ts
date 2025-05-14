@@ -1,6 +1,7 @@
 import { RadioBrowserApi } from 'radio-browser-api';
+import type * as T from './RadioBrowserContract';
 
-export class RadioBrowser {
+export class RadioBrowser implements T.RadioBrowserContract {
 	private static INSTANCE: RadioBrowser;
 	private radioBrowser: RadioBrowserApi;
 
@@ -14,5 +15,9 @@ export class RadioBrowser {
 		}
 
 		return this.INSTANCE;
+	}
+
+	async searchStations(query: T.TQuery): Promise<T.TRadioList> {
+		return await this.radioBrowser.searchStations(query);
 	}
 }
