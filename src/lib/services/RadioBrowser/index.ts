@@ -5,6 +5,14 @@ export class RadioBrowser implements T.RadioBrowserContract {
 	private static INSTANCE: RadioBrowser;
 	private radioBrowser: RadioBrowserApi;
 
+	public stationsList = [
+		{ slug: 'Lofi - Chill & relax', name: 'Chillofi' },
+		{ slug: 'Splash Coffee station', name: 'Splash Coffee' },
+		{ slug: 'Lofi Girl - beats to relax and study', name: 'lofi girl' },
+		{ slug: 'Synthwave City beat', name: 'Synthwave City FM - New' },
+		{ slug: 'Night ride vibe', name: 'Nightride FM' }
+	];
+
 	private constructor() {
 		this.radioBrowser = new RadioBrowserApi('radiobrowser');
 	}
