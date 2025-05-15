@@ -4,7 +4,6 @@
 	import { fade } from 'svelte/transition';
 
 	const musicState = MusicState.getInstance();
-	const currentMusic = musicState.getCurrentAudio();
 
 	const videoImage: Record<PlaylistName, { src: string }> = {
 		'Houston Blues Radio': {
@@ -27,7 +26,7 @@
 		}
 	};
 
-	let videoSelected = $derived(videoImage[currentMusic.radioName as PlaylistName]);
+	let videoSelected = $derived(videoImage[musicState.playlistName as PlaylistName]);
 </script>
 
 {#key videoSelected.src}

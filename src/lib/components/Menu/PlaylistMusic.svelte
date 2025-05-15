@@ -14,8 +14,8 @@
 
 	const musicState = MusicState.getInstance();
 
-	function toggleMusicName(newName: string) {
-		return musicState.handleCurrentAudio({ radioName: newName });
+	function toggleMusicName(newPlaylist: string) {
+		return musicState.handlePlaylistName(newPlaylist);
 	}
 
 	const icons: Record<PlaylistName, string> = {

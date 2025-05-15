@@ -1,24 +1,16 @@
 import { RadioBrowser } from '$lib/services/RadioBrowser';
-import type { MusicStateDate } from './MusicState';
 
 export class MusicState {
 	private static INSTANCE: MusicState;
 
-	private attr: MusicStateDate = $state({
-		currentRadio: {
-			radioName: RadioBrowser.stationsList[0].name,
-			play: true,
-			audioRange: 50
-		}
-	});
+	public playlistName = $state();
 
-	getCurrentAudio() {
-		return this.attr.currentRadio;
+	constructor() {
+		this.playlistName = RadioBrowser.stationsList[0].name;
 	}
 
-	handleCurrentAudio(args: Partial<MusicStateDate['currentRadio']>) {
-		const tmpCurrentAudio = Object.assign(this.attr.currentRadio, args);
-		return (this.attr.currentRadio = tmpCurrentAudio);
+	handlePlaylistName(newPlaylist: string) {
+		this.playlistName = newPlaylist;
 	}
 
 	public static getInstance() {

@@ -6,17 +6,22 @@
 	const radioBrowser = RadioBrowser.getInstance();
 	const musicState = MusicState.getInstance();
 
-	let audio = $derived(new Audio());
-
 	let playlist: Promise<TRadioList[number]> = $derived(getAudio());
+	let audio = $state<HTMLAudioElement | null>(null);
 
 	async function getAudio() {
 		const playlist = await radioBrowser
 			.searchStations({
-				name: musicState.getCurrentAudio().radioName,
+				name: musicState.playlistName as string,
 				limit: 1
 			})
 			.then((r) => r[0]);
+
+		if (!audio) {
+			audio = new Audio();
+		} else {
+			audio.src = '';
+		}
 
 		audio.src = playlist.urlResolved;
 		audio.play();
