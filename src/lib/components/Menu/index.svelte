@@ -1,8 +1,9 @@
 <script lang="ts">
+	import { fade } from 'svelte/transition';
 	import PlaylistMusic from './PlaylistMusic.svelte';
 
 	const className =
-		'bg-neutral-300 p-4 text-neutral-800 rounded-full cursor-pointer hover:bg-neutral-800 transition-colors hover:text-white';
+		'p-4 text-white rounded-full cursor-pointer filter backdrop-contrast-125 hover:backdrop-contrast-200 transition-all';
 
 	type TStep = 'idle' | 'changePlaylist';
 
@@ -41,7 +42,7 @@
 
 		{#if step !== 'idle'}
 			<article
-				class="absolute top-1/2 right-20 -translate-y-1/2 rounded-md bg-neutral-800 p-4 text-white"
+				class="absolute top-1/2 right-20 -translate-y-1/2 rounded-md p-4 text-white filter backdrop-blur-lg"
 			>
 				<CurrentStep />
 			</article>
