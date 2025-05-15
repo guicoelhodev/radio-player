@@ -28,6 +28,10 @@ export class RadioBrowser implements T.RadioBrowserContract {
 	}
 
 	async searchStations(query: T.TQuery): Promise<T.TRadioList> {
-		return await this.radioBrowser.searchStations(query);
+		try {
+			return await this.radioBrowser.searchStations(query);
+		} catch {
+			throw new Error('Radio station is not avaliable. Try again later');
+		}
 	}
 }
