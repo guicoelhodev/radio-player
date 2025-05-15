@@ -2,6 +2,7 @@
 	import { RadioBrowser } from '$lib/services/RadioBrowser';
 	import { MusicState } from '$lib/state/MusicState/index.svelte';
 	import type { TRadioList } from '$lib/services/RadioBrowser/RadioBrowserContract';
+	import WaveSound from './WaveSound.svelte';
 
 	const radioBrowser = RadioBrowser.getInstance();
 	const musicState = MusicState.getInstance();
@@ -41,9 +42,11 @@
 	}
 </script>
 
-<div class="absolute right-2 bottom-2 flex gap-2 rounded-md bg-neutral-900 p-4 text-white">
+<div
+	class="absolute right-2 bottom-2 flex gap-2 rounded-md text-white filter backdrop-contrast-200"
+>
 	{#await playlist}
-		<article class="flex items-center gap-4">
+		<article class="flex items-center gap-4 p-4">
 			<p>Loading Radio station</p>
 			<span class="animate-spin">
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -52,8 +55,11 @@
 			</span>
 		</article>
 	{:then playlist}
-		<article class="flex items-center gap-4">
-			<button class="cursor-pointer border p-2" onclick={() => playMusic()}>
+		<article class="flex items-center gap-4 px-4">
+			<button
+				class="cursor-pointer rounded-full p-2 filter transition-colors hover:bg-white hover:text-neutral-800"
+				onclick={() => playMusic()}
+			>
 				<span>
 					{#if isPaused}
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -69,9 +75,19 @@
 					{/if}
 				</span>
 			</button>
-			<p>{playlist.name}</p>
+
+			<div>
+				<p>{playlist.name}</p>
+				<a class="text-sm text-neutral-300 underline" href={playlist.homepage} target="_blank"
+					>visit homepage</a
+				>
+			</div>
+
+			{#if playlist.urlResolved}
+				<WaveSound />
+			{/if}
 		</article>
 	{:catch error}
-		<p>{error.message}</p>
+		<p class="p-4">{error.message}</p>
 	{/await}
 </div>

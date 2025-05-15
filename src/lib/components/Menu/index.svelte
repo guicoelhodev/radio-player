@@ -41,7 +41,7 @@
 
 		{#if step !== 'idle'}
 			<article
-				class="absolute top-1/2 right-20 -translate-y-1/2 rounded-md p-4 text-white filter backdrop-blur-lg"
+				class="absolute top-1/2 right-20 -translate-y-1/2 rounded-md p-4 text-white filter backdrop-blur-md backdrop-contrast-125"
 			>
 				<CurrentStep />
 			</article>

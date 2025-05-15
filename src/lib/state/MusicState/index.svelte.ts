@@ -6,7 +6,7 @@ export class MusicState {
 	public playlistName = $state();
 
 	constructor() {
-		this.playlistName = RadioBrowser.stationsList[0].name;
+		this.playlistName = RadioBrowser.stationsList[1].name;
 	}
 
 	handlePlaylistName(newPlaylist: string) {
