@@ -11,7 +11,7 @@ export class RadioBrowser implements T.RadioBrowserContract {
 		{ slug: 'Splash Coffee station', name: PlaylistName.SplashCoffee },
 		{ slug: 'Lofi Girl - Relax and study', name: PlaylistName.LofiGirl },
 		{ slug: 'Synthwave City beat', name: PlaylistName.Synthwave },
-		{ slug: 'Night ride vibe', name: PlaylistName.Nightride },
+		{ slug: 'Car ride vibe', name: PlaylistName.Nightride },
 		{ slug: 'Houston Blues Radio', name: PlaylistName.HoustonBlues }
 	];
 
