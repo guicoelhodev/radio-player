@@ -35,7 +35,7 @@
 			onclick={() => toggleMusicName(station.name)}
 		>
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-			<span>{@html icons[station.name]}</span>
+			<span>{@html icons[station.key]}</span>
 			<p class="text-left">{station.slug}</p>
 		</button>
 	{/each}

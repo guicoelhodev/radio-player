@@ -13,6 +13,14 @@ export class MusicState {
 		this.playlistName = newPlaylist;
 	}
 
+	handleAudioAttrs(audio: HTMLMediaElement, attr: Partial<HTMLAudioElement>) {
+		audio.src = ''; // reset audio
+		audio.load();
+
+		Object.assign(audio, attr);
+		audio.play();
+	}
+
 	public static getInstance() {
 		if (!this.INSTANCE) {
 			this.INSTANCE = new MusicState();

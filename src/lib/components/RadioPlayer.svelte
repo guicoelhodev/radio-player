@@ -6,10 +6,11 @@
 	const radioBrowser = RadioBrowser.getInstance();
 	const musicState = MusicState.getInstance();
 
-	let playlist: Promise<TRadioList[number]> = $derived(getAudio());
-	let audio = $state<HTMLAudioElement | null>(null);
+	let playlist: Promise<TRadioList[number]> = $derived(getPlaylistName());
+	let audio = $state<HTMLMediaElement | null>(null);
+	let isPaused = $derived(audio?.paused ?? true);
 
-	async function getAudio() {
+	async function getPlaylistName() {
 		const playlist = await radioBrowser
 			.searchStations({
 				name: musicState.playlistName as string,
@@ -19,14 +20,24 @@
 
 		if (!audio) {
 			audio = new Audio();
-		} else {
-			audio.src = '';
 		}
 
-		audio.src = playlist.urlResolved;
-		audio.play();
+		musicState.handleAudioAttrs(audio, { src: playlist.urlResolved });
 
+		isPaused = false;
 		return playlist;
+	}
+
+	function playMusic() {
+		if (!audio) return;
+
+		if (audio.paused) {
+			audio.play();
+		} else {
+			audio.pause();
+		}
+
+		return (isPaused = !isPaused);
 	}
 </script>
 
@@ -41,7 +52,23 @@
 			</span>
 		</article>
 	{:then playlist}
-		<article>
+		<article class="flex items-center gap-4">
+			<button class="cursor-pointer border p-2" onclick={() => playMusic()}>
+				<span>
+					{#if isPaused}
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+							<path fill="currentColor" d="M8 5.14v14l11-7z" />
+						</svg>
+					{:else}
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+							<path
+								fill="currentColor"
+								d="M16 19q-.825 0-1.412-.587T14 17V7q0-.825.588-1.412T16 5t1.413.588T18 7v10q0 .825-.587 1.413T16 19m-8 0q-.825 0-1.412-.587T6 17V7q0-.825.588-1.412T8 5t1.413.588T10 7v10q0 .825-.587 1.413T8 19"
+							/>
+						</svg>
+					{/if}
+				</span>
+			</button>
 			<p>{playlist.name}</p>
 		</article>
 	{:catch error}
