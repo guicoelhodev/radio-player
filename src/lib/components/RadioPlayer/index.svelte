@@ -43,10 +43,10 @@
 </script>
 
 <div
-	class="absolute right-2 bottom-2 flex gap-2 rounded-md text-white filter backdrop-contrast-200"
+	class="absolute right-0 bottom-0 flex gap-2 text-white filter backdrop-contrast-200 sm:right-2 sm:bottom-2 sm:rounded-md"
 >
 	{#await playlist}
-		<article class="flex items-center gap-4 p-4">
+		<article class="flex w-screen items-center gap-4 p-4 sm:w-auto">
 			<p>Loading Radio station</p>
 			<span class="animate-spin">
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -55,7 +55,7 @@
 			</span>
 		</article>
 	{:then playlist}
-		<article class="flex items-center gap-4 px-4">
+		<article class="flex w-screen items-center gap-4 px-4 sm:w-auto">
 			<button
 				class="cursor-pointer rounded-full p-2 filter transition-colors hover:bg-white hover:text-neutral-800"
 				onclick={() => playMusic()}
@@ -76,7 +76,7 @@
 				</span>
 			</button>
 
-			<div>
+			<div class="flex-1">
 				<p>{playlist.name}</p>
 				<a class="text-sm text-neutral-300 underline" href={playlist.homepage} target="_blank"
 					>visit homepage</a
