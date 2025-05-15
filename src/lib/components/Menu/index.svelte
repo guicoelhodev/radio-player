@@ -21,7 +21,7 @@
 	const CurrentStep = $derived(componentsStep[step]);
 </script>
 
-<div class="fixed top-1/2 right-4">
+<div class="fixed top-1/2 right-4 -translate-y-1/2">
 	<section class="relative">
 		<ul class="p-2">
 			<button
@@ -41,7 +41,7 @@
 
 		{#if step !== 'idle'}
 			<article
-				class="absolute top-0 right-20 -translate-y-1/3 rounded-md bg-neutral-800 p-4 text-white"
+				class="absolute top-1/2 right-20 -translate-y-1/2 rounded-md bg-neutral-800 p-4 text-white"
 			>
 				<CurrentStep />
 			</article>
