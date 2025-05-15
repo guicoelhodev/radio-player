@@ -6,16 +6,27 @@
 	const radioBrowser = RadioBrowser.getInstance();
 	const musicState = MusicState.getInstance();
 
-	let stationsPromise: Promise<TRadioList> = $derived(
-		radioBrowser.searchStations({
-			name: musicState.getCurrentAudio().radioName,
-			limit: 1
-		})
-	);
+	let audio = $derived(new Audio());
+
+	let playlist: Promise<TRadioList[number]> = $derived(getAudio());
+
+	async function getAudio() {
+		const playlist = await radioBrowser
+			.searchStations({
+				name: musicState.getCurrentAudio().radioName,
+				limit: 1
+			})
+			.then((r) => r[0]);
+
+		audio.src = playlist.urlResolved;
+		audio.play();
+
+		return playlist;
+	}
 </script>
 
 <div class="absolute right-2 bottom-2 flex gap-2 rounded-md bg-neutral-900 p-4 text-white">
-	{#await stationsPromise}
+	{#await playlist}
 		<article class="flex items-center gap-4">
 			<p>Loading Radio station</p>
 			<span class="animate-spin">
@@ -24,13 +35,10 @@
 				</svg>
 			</span>
 		</article>
-	{:then stations}
-		{$inspect(stations)}
-		<ul>
-			{#each stations as station (station.id)}
-				<audio autoplay controls src={station.urlResolved}></audio>
-			{/each}
-		</ul>
+	{:then playlist}
+		<article>
+			<p>{playlist.name}</p>
+		</article>
 	{:catch error}
 		<p>{error.message}</p>
 	{/await}
