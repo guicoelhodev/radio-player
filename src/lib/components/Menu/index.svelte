@@ -6,7 +6,7 @@
 
 	type TStep = 'idle' | 'changePlaylist';
 
-	let step: TStep = $state('changePlaylist');
+	let step: TStep = $state('idle');
 
 	function handleStep(newStep: TStep) {
 		if (newStep === step) return (step = 'idle');
@@ -22,7 +22,7 @@
 </script>
 
 <div class="fixed top-1/2 right-4">
-	<section class="relative border">
+	<section class="relative">
 		<ul class="p-2">
 			<button
 				onclick={() => handleStep('changePlaylist')}
@@ -40,7 +40,9 @@
 		</ul>
 
 		{#if step !== 'idle'}
-			<article class="absolute top-0 right-24 rounded-md bg-neutral-800 p-4 text-white">
+			<article
+				class="absolute top-0 right-20 -translate-y-1/3 rounded-md bg-neutral-800 p-4 text-white"
+			>
 				<CurrentStep />
 			</article>
 		{/if}

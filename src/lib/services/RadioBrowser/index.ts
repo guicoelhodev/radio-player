@@ -1,17 +1,18 @@
 import { RadioBrowserApi } from 'radio-browser-api';
+import { PlaylistName } from '$lib/state/types/playlist.enum';
 import type * as T from './RadioBrowserContract';
 
 export class RadioBrowser implements T.RadioBrowserContract {
 	private static INSTANCE: RadioBrowser;
 	private radioBrowser: RadioBrowserApi;
 
-	public static stationsList = [
-		{ slug: 'Lofi - Chill & relax', name: 'Chillofi' },
-		{ slug: 'Splash Coffee station', name: 'Splash Coffee' },
-		{ slug: 'Lofi Girl - beats to relax and study', name: 'lofi girl' },
-		{ slug: 'Synthwave City beat', name: 'Synthwave City FM - New' },
-		{ slug: 'Night ride vibe', name: 'Nightride FM' },
-		{ slug: 'Houston Blues Radio', name: 'Houston Blues Radio' }
+	public static stationsList: { slug: string; name: PlaylistName }[] = [
+		{ slug: 'Lofi - Chill & relax', name: PlaylistName.Chillofi },
+		{ slug: 'Splash Coffee station', name: PlaylistName.SplashCoffee },
+		{ slug: 'Lofi Girl - Relax and study', name: PlaylistName.LofiGirl },
+		{ slug: 'Synthwave City beat', name: PlaylistName.Synthwave },
+		{ slug: 'Night ride vibe', name: PlaylistName.Nightride },
+		{ slug: 'Houston Blues Radio', name: PlaylistName.HoustonBlues }
 	];
 
 	private constructor() {
