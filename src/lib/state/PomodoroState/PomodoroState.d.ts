@@ -5,7 +5,7 @@ export type TPomodoroSetup = {
 	intervals: number;
 };
 
-type TStep = 'short' | 'long' | 'pomodoro';
+type TStep = 'idle' | 'short' | 'long' | 'pomodoro';
 
 export type TPomodoroUser = {
 	currentStep: TStep;

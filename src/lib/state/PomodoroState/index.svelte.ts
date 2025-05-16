@@ -11,7 +11,7 @@ export class PomodoroState {
 	};
 
 	private POMODORO_USER_DEFAULT: T.TPomodoroUser = {
-		currentStep: 'pomodoro',
+		currentStep: 'idle',
 		intervalsLeft: this.SETUP_DEFAULT.intervals,
 		isRunning: false,
 		isSetted: true
