@@ -10,8 +10,8 @@ export class MusicState {
 	});
 
 	private musicAttrs: T.TMusicRange = $state({
-		rain: { range: 50, slug: 'Rain effects' },
-		city: { range: 0, slug: 'City effects' },
+		rain: { range: 50, slug: 'Rain effect' },
+		city: { range: 0, slug: 'City effect' },
 		music: { range: 50, slug: 'Music sound' }
 	});
 
