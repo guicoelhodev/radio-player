@@ -3,6 +3,11 @@ type TSound = {
 	audioRange: number;
 };
 
-export type MusicStateDate = {
-	currentRadio: TSound & { radioName: string };
-};
+type TMusicType = 'rain' | 'city' | 'music'
+
+export type TMusicTypeAttrs = {
+	slug: string;
+	range: number
+}
+
+export type TMusicRange = Record<TMusicType, TMusicTypeAttrs>

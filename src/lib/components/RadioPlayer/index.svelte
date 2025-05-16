@@ -3,11 +3,13 @@
 	import { MusicState } from '$lib/state/MusicState/index.svelte';
 	import type { TRadioList } from '$lib/services/RadioBrowser/RadioBrowserContract';
 	import WaveSound from './WaveSound.svelte';
+	import { onMount } from 'svelte';
 
 	const radioBrowser = RadioBrowser.getInstance();
 	const musicState = MusicState.getInstance();
 
 	let playlist: Promise<TRadioList[number]> = $derived(getPlaylistName());
+
 	let audio = $state<HTMLMediaElement | null>(null);
 	let isPaused = $derived(audio?.paused ?? true);
 
@@ -20,10 +22,14 @@
 			.then((r) => r[0]);
 
 		if (!audio) {
-			audio = new Audio();
+			return;
+		} else {
+			audio.src = ''; // reset audio
+			audio.load();
 		}
 
-		musicState.handleAudioAttrs(audio, { src: playlist.urlResolved });
+		audio.src = playlist.urlResolved;
+		audio.play();
 
 		isPaused = false;
 		return playlist;
@@ -40,6 +46,19 @@
 
 		return (isPaused = !isPaused);
 	}
+
+	const musicAttrs = musicState.getMusicAttrs().music;
+
+	$effect(() => {
+		if (audio) {
+			const volume = musicAttrs.range / 100;
+			audio.volume = volume;
+		}
+	});
+
+	onMount(() => {
+		audio = new Audio();
+	});
 </script>
 
 <section class="flex w-auto gap-2 text-white filter backdrop-contrast-200 sm:rounded-md">

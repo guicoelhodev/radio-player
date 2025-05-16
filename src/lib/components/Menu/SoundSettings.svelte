@@ -1,23 +1,34 @@
 <script lang="ts">
+	import { MusicState } from '$lib/state/MusicState/index.svelte';
+	import { onMount } from 'svelte';
+
 	const props = $props<{ classMenu: string }>();
+	const musicState = MusicState.getInstance();
+
+	const musicAttrs = $derived(musicState.getMusicAttrs());
+
+	let rain = $state<null | HTMLAudioElement>(null);
+
+	onMount(() => {
+		rain = new Audio();
+	});
+
+	$inspect(rain);
 </script>
 
 <div class={props.classMenu}>
 	<ul class="flex flex-col gap-4">
-		<li class="flex flex-col gap-2">
-			<label class="text-sm" for="rain_range">Rain effects</label>
-
-			<input type="range" class="range-slider" />
-		</li>
-
-		<li class="flex flex-col gap-2">
-			<label class="text-sm" for="city_range">City effects</label>
-			<input id="city_range" class="range-slider" type="range" />
-		</li>
-
-		<li class="flex flex-col gap-2">
-			<label class="text-sm" for="sound_range">Music sound</label>
-			<input id="sound_range" type="range" class="range-slider" />
-		</li>
+		{#each Object.entries(musicAttrs) as [musicType, attrs] (musicType)}
+			<li class="w-48">
+				<label for={musicType}>{attrs.slug}</label>
+				<input
+					type="range"
+					step="10"
+					class="range-slider"
+					id={musicType}
+					bind:value={attrs.range}
+				/>
+			</li>
+		{/each}
 	</ul>
 </div>
