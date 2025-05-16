@@ -22,7 +22,7 @@
 			.then((r) => r[0]);
 
 		if (!audio) {
-			return;
+			return playlist;
 		} else {
 			audio.src = ''; // reset audio
 			audio.load();
