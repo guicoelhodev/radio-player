@@ -37,7 +37,7 @@
 
 	onMount(() => {
 		rainSound = new Audio('/mp3/rain_falling.mp3');
-		restaurantSound = new Audio('/mp3/busy_bar.mp3');
+		restaurantSound = new Audio('/mp3/coffee_noise.mp3');
 
 		rainSound.loop = true;
 		restaurantSound.loop = true;
