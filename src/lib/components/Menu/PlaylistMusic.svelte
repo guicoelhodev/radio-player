@@ -10,6 +10,7 @@
 	import House from '$lib/assets/svg/icons/house.svg?raw';
 	import Moon from '$lib/assets/svg/icons/moon.svg?raw';
 
+	const props = $props<{ classMenu: string }>();
 	const defaultStations = RadioBrowser.stationsList;
 
 	const musicState = MusicState.getInstance();
@@ -28,15 +29,17 @@
 	};
 </script>
 
-<ul class="flex w-64 flex-col gap-2">
-	{#each defaultStations as station (station.name)}
-		<button
-			class="grid w-full cursor-pointer grid-cols-[1.5rem_1fr] items-center gap-4 rounded-md p-2 filter hover:backdrop-contrast-200"
-			onclick={() => toggleMusicName(station.name)}
-		>
-			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-			<span>{@html icons[station.name]}</span>
-			<p class="text-left">{station.slug}</p>
-		</button>
-	{/each}
-</ul>
+<div class={props.classMenu}>
+	<ul class="flex w-64 flex-col gap-2">
+		{#each defaultStations as station (station.name)}
+			<button
+				class="grid w-full cursor-pointer grid-cols-[1.5rem_1fr] items-center gap-4 rounded-md p-2 filter hover:backdrop-contrast-200"
+				onclick={() => toggleMusicName(station.name)}
+			>
+				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+				<span>{@html icons[station.name]}</span>
+				<p class="text-left">{station.slug}</p>
+			</button>
+		{/each}
+	</ul>
+</div>

@@ -42,9 +42,7 @@
 	}
 </script>
 
-<div
-	class="absolute right-0 bottom-0 flex gap-2 text-white filter backdrop-contrast-200 sm:right-2 sm:bottom-2 sm:rounded-md"
->
+<section class="flex w-auto gap-2 text-white filter backdrop-contrast-200 sm:rounded-md">
 	{#await playlist}
 		<article class="flex w-screen items-center gap-4 p-4 sm:w-auto">
 			<p>Loading Radio station</p>
@@ -90,4 +88,4 @@
 	{:catch error}
 		<p class="p-4">{error.message}</p>
 	{/await}
-</div>
+</section>
