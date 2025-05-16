@@ -16,7 +16,7 @@
 	const musicState = MusicState.getInstance();
 
 	function toggleMusicName(newPlaylist: string) {
-		return musicState.handlePlaylistName(newPlaylist);
+		return musicState.handlePlaylistAttrs({ name: newPlaylist });
 	}
 
 	const icons: Record<PlaylistName, string> = {

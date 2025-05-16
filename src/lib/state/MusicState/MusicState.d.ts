@@ -10,4 +10,9 @@ export type TMusicTypeAttrs = {
 	range: number
 }
 
+export type TPlaylistAttrs = {
+	name: string;
+	paused: boolean;
+}
+
 export type TMusicRange = Record<TMusicType, TMusicTypeAttrs>

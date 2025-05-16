@@ -5,6 +5,7 @@
 	const musicState = MusicState.getInstance();
 
 	let attrs = $derived(musicState.getMusicAttrs());
+	let { paused } = $derived(musicState.getPlaylistAttrs());
 
 	let rainSound = $state<null | HTMLAudioElement>(null);
 	let restaurantSound = $state<null | HTMLAudioElement>(null);
@@ -32,6 +33,17 @@
 		if (!restaurantSound) return;
 		if (attrs.city.range !== restaurantSound.volume * 100) {
 			handleVolume(restaurantSound, attrs.city.range);
+		}
+	});
+
+	$effect(() => {
+		if (!rainSound || !restaurantSound) return;
+		if (paused) {
+			rainSound.pause();
+			restaurantSound.pause();
+		} else {
+			rainSound.play();
+			restaurantSound.play();
 		}
 	});
 

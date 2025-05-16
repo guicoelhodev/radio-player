@@ -3,21 +3,23 @@
 	import { MusicState } from '$lib/state/MusicState/index.svelte';
 	import type { TRadioList } from '$lib/services/RadioBrowser/RadioBrowserContract';
 	import WaveSound from './WaveSound.svelte';
-	import { onDestroy, onMount } from 'svelte';
 	import BackgroundSound from './BackgroundSound.svelte';
+	import { onDestroy, onMount } from 'svelte';
 
 	const radioBrowser = RadioBrowser.getInstance();
 	const musicState = MusicState.getInstance();
 
 	let playlist: Promise<TRadioList[number]> = $derived(getPlaylistName());
 
+	const playlistAttrs = $derived(musicState.getPlaylistAttrs());
+
 	let audio = $state<HTMLMediaElement | null>(null);
-	let isPaused = $derived(audio?.paused ?? true);
+	let musicAttrs = $derived(musicState.getMusicAttrs().music);
 
 	async function getPlaylistName() {
 		const playlist = await radioBrowser
 			.searchStations({
-				name: musicState.playlistName as string,
+				name: playlistAttrs.name as string,
 				limit: 1
 			})
 			.then((r) => r[0]);
@@ -32,7 +34,7 @@
 		audio.src = playlist.urlResolved;
 		audio.play();
 
-		isPaused = false;
+		musicState.handlePlaylistAttrs({ paused: false });
 		return playlist;
 	}
 
@@ -45,10 +47,10 @@
 			audio.pause();
 		}
 
-		return (isPaused = !isPaused);
+		return musicState.handlePlaylistAttrs({
+			paused: !playlistAttrs.paused
+		});
 	}
-
-	let musicAttrs = $derived(musicState.getMusicAttrs().music);
 
 	$effect(() => {
 		if (audio) {
@@ -88,7 +90,7 @@
 				onclick={() => playMusic()}
 			>
 				<span>
-					{#if isPaused}
+					{#if playlistAttrs.paused}
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 							<path fill="currentColor" d="M8 5.14v14l11-7z" />
 						</svg>

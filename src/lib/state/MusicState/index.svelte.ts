@@ -4,7 +4,10 @@ import type * as T from './MusicState.d.ts';
 export class MusicState {
 	private static INSTANCE: MusicState;
 
-	public playlistName = $state();
+	private playlistAttrs = $state<T.TPlaylistAttrs>({
+		name: '',
+		paused: false,
+	});
 
 	private musicAttrs: T.TMusicRange = $state({
 		rain: { range: 50, slug: 'Rain effects' },
@@ -13,11 +16,18 @@ export class MusicState {
 	});
 
 	constructor() {
-		this.playlistName = RadioBrowser.stationsList[0].name;
+		this.playlistAttrs = {
+			name: RadioBrowser.stationsList[0].name,
+			paused: false
+		}
 	}
 
 	getMusicAttrs() {
 		return this.musicAttrs;
+	}
+
+	getPlaylistAttrs() {
+		return this.playlistAttrs
 	}
 
 	public static getInstance() {
@@ -27,8 +37,8 @@ export class MusicState {
 		return this.INSTANCE;
 	}
 
-	handlePlaylistName(newPlaylist: string) {
-		this.playlistName = newPlaylist;
+	handlePlaylistAttrs(attrs: Partial<T.TPlaylistAttrs>) {
+		this.playlistAttrs = Object.assign(this.playlistAttrs, attrs);
 	}
 
 	handleMusicAttrs(key: T.TMusicType, attrs: Partial<T.TMusicRange[T.TMusicType]>) {
