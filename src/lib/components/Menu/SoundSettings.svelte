@@ -1,17 +1,10 @@
 <script lang="ts">
 	import { MusicState } from '$lib/state/MusicState/index.svelte';
-	import { onMount } from 'svelte';
 
 	const props = $props<{ classMenu: string }>();
 	const musicState = MusicState.getInstance();
+	let musicAttrs = $derived(musicState.getMusicAttrs());
 
-	const musicAttrs = $derived(musicState.getMusicAttrs());
-
-	let rain = $state<null | HTMLAudioElement>(null);
-
-	onMount(() => {
-		rain = new Audio();
-	});
 </script>
 
 <div class={props.classMenu}>

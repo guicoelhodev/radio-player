@@ -3,7 +3,8 @@
 	import { MusicState } from '$lib/state/MusicState/index.svelte';
 	import type { TRadioList } from '$lib/services/RadioBrowser/RadioBrowserContract';
 	import WaveSound from './WaveSound.svelte';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
+	import BackgroundSound from './BackgroundSound.svelte';
 
 	const radioBrowser = RadioBrowser.getInstance();
 	const musicState = MusicState.getInstance();
@@ -47,7 +48,7 @@
 		return (isPaused = !isPaused);
 	}
 
-	const musicAttrs = musicState.getMusicAttrs().music;
+	let musicAttrs = $derived(musicState.getMusicAttrs().music);
 
 	$effect(() => {
 		if (audio) {
@@ -58,6 +59,15 @@
 
 	onMount(() => {
 		audio = new Audio();
+	});
+
+	onDestroy(() => {
+		if (audio) {
+			audio.pause();
+			audio.src = '';
+
+			audio = null;
+		}
 	});
 </script>
 
@@ -103,6 +113,8 @@
 			{#if playlist.urlResolved}
 				<WaveSound />
 			{/if}
+
+			<BackgroundSound />
 		</article>
 	{:catch error}
 		<p class="p-4">{error.message}</p>
