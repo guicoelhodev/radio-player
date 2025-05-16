@@ -7,7 +7,7 @@
 
 	type TStep = 'idle' | 'changePlaylist' | 'soundSettings';
 
-	let step: TStep = $state('soundSettings');
+	let step: TStep = $state('idle');
 
 	function handleStep(newStep: TStep) {
 		if (newStep === step) return (step = 'idle');

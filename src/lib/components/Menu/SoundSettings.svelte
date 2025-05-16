@@ -12,8 +12,6 @@
 	onMount(() => {
 		rain = new Audio();
 	});
-
-	$inspect(rain);
 </script>
 
 <div class={props.classMenu}>

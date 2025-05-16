@@ -13,7 +13,7 @@ export class MusicState {
 	});
 
 	constructor() {
-		this.playlistName = RadioBrowser.stationsList[1].name;
+		this.playlistName = RadioBrowser.stationsList[0].name;
 	}
 
 	getMusicAttrs() {
