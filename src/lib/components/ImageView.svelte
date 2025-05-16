@@ -36,7 +36,7 @@
 			muted
 			loop
 			playsinline
-			class="absolute top-0 left-0 z-[-1] h-screen w-full object-cover brightness-50"
+			class="fixed top-0 left-0 z-[-1] h-screen w-full object-cover brightness-50"
 		>
 			<source src={videoSelected.src} type="video/mp4" />
 		</video>

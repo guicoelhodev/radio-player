@@ -41,6 +41,7 @@
 		"vitest": "^3.0.0"
 	},
 	"dependencies": {
-		"radio-browser-api": "^6.0.3"
+		"radio-browser-api": "^6.0.3",
+		"tailwind-merge": "^3.3.0"
 	}
 }
