@@ -16,8 +16,8 @@
 </script>
 
 <div
-	class="fixed top-1/2 left-1/2 w-full max-w-96
--translate-x-1/2 -translate-y-1/2 rounded-md p-4 filter backdrop-blur-md backdrop-contrast-125"
+	class="fixed top-1/2 left-1/2 w-[calc(100%-1rem)] -translate-x-1/2 -translate-y-1/2
+rounded-md p-4 filter backdrop-blur-md backdrop-contrast-125 sm:w-full sm:max-w-96"
 >
 	<section class="flex flex-col items-center gap-4 text-white">
 		<header>
