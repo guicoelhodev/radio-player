@@ -14,7 +14,7 @@ export class PomodoroState {
 		currentStep: 'pomodoro',
 		intervalsLeft: this.SETUP_DEFAULT.intervals,
 		isRunning: false,
-		isSetted: false
+		isSetted: true
 	};
 
 	private setup = $state<T.TPomodoroSetup>(this.SETUP_DEFAULT);

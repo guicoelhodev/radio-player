@@ -2,11 +2,14 @@
 	import Menu from '$lib/components/Menu/index.svelte';
 	import ImageView from '$lib/components/ImageView.svelte';
 	import RadioPlayer from '$lib/components/RadioPlayer/index.svelte';
+	import Timer from '$lib/components/Timer/index.svelte';
 </script>
 
 <div class="relative">
-	<main class="relative grid h-screen w-screen grid-cols-[1fr_auto] grid-rows-[1fr_auto]">
-		<section>1</section>
+	<main class="relative grid h-screen w-screen grid-cols-[1fr_5rem] grid-rows-[1fr_5rem]">
+		<section class="flex items-center justify-center">
+			<Timer />
+		</section>
 		<section class="flex justify-center p-2 sm:items-center">
 			<Menu />
 		</section>

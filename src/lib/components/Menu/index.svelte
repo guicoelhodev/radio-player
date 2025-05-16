@@ -9,7 +9,7 @@
 
 	type TStep = 'idle' | 'changePlaylist' | 'soundSettings' | 'pomodoro';
 
-	let step: TStep = $state('pomodoro');
+	let step: TStep = $state('idle');
 
 	function handleStep(newStep: TStep) {
 		if (newStep === step) return (step = 'idle');
