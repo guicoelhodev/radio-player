@@ -6,7 +6,7 @@
 </script>
 
 <div class="relative">
-	<main class="relative grid h-screen w-screen grid-cols-[1fr_5rem] grid-rows-[1fr_5rem]">
+	<main class="relative grid h-[100dvh] w-screen grid-cols-[1fr_5rem] grid-rows-[1fr_5rem]">
 		<section class="flex items-center justify-center">
 			<a
 				class="absolute top-4 left-4 text-xl font-extrabold text-white sm:text-2xl"

@@ -32,9 +32,14 @@
 		}
 
 		audio.src = playlist.urlResolved;
-		audio.play();
 
-		musicState.handlePlaylistAttrs({ paused: false });
+		try {
+			await audio.play();
+
+			musicState.handlePlaylistAttrs({ paused: false });
+		} catch {
+			musicState.handlePlaylistAttrs({ paused: true });
+		}
 		return playlist;
 	}
 
