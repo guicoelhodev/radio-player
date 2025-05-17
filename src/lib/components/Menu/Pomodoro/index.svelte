@@ -18,7 +18,7 @@
 </script>
 
 <div
-	class="fixed top-1/2 left-1/2 w-[calc(100%-1rem)] -translate-x-1/2 -translate-y-1/2
+	class="fixed top-1/2 left-1/2 z-30 max-h-dvh w-[calc(100%-1rem)] -translate-x-1/2 -translate-y-1/2 overflow-auto
 rounded-md p-4 filter backdrop-blur-3xl backdrop-contrast-200 sm:w-full sm:max-w-96"
 >
 	<section class="flex flex-col items-center gap-4 text-white">
