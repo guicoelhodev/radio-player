@@ -1,20 +1,17 @@
 <script lang="ts">
 	import { PomodoroState } from '$lib/state/PomodoroState/index.svelte';
+	import ButtonTimer from './ButtonTimer.svelte';
+	import MessageStep from './MessageStep.svelte';
 	import TimerViewer from './TimerViewer.svelte';
 
-	const messageByStep = {
-		pomodoro: 'work time',
-		short: 'Great job, take a rest',
-		long: 'Breath deep, its time to get a long rest'
-	};
-
+	type TKeySetup = keyof typeof setup;
 	const pomodoroState = PomodoroState.getInstance();
-	const pomodoro = $derived(pomodoroState.getPomodoroUser());
-	let setup = $derived(pomodoroState.getSetupPomodoro());
 
-	const message = $derived(messageByStep[pomodoro.currentStep as keyof typeof messageByStep]);
+	const pomodoro = pomodoroState.getPomodoroUser();
+	const setup = pomodoroState.getSetupPomodoro();
 
 	let timerSeconds = $state(pomodoroState.getSetupPomodoro().pomodoro * 60);
+	let stage = $derived(getStage());
 
 	function getTimerByStep() {
 		const newTImer = setup[pomodoro.currentStep as keyof typeof setup] * 60;
@@ -28,6 +25,17 @@
 		return pomodoroState.handlePomodoroUser({ isRunning: true });
 	}
 
+	function getStage() {
+		if (pomodoro.intervalsLeft === 0) return 'CHANGE_CYCLE';
+
+		const isTimerInit = setup[pomodoro.currentStep as TKeySetup] === timerSeconds / 60;
+
+		if (pomodoro.isRunning && !isTimerInit) return 'USER_CAN_PAUSE';
+		if (!pomodoro.isRunning && isTimerInit) return 'USER_CAN_START';
+
+		return '';
+	}
+
 	$effect(() => {
 		if (!pomodoro.isSetted || !pomodoro.isRunning) return;
 
@@ -35,7 +43,7 @@
 			pomodoroState.nextStep();
 			getTimerByStep();
 		} else {
-			const intervalId = setInterval(() => (timerSeconds -= 1), 1000);
+			const intervalId = setInterval(() => (timerSeconds -= 1), 100);
 
 			return () => {
 				clearInterval(intervalId);
@@ -47,35 +55,46 @@
 <section class="ml-20 flex flex-col gap-4 text-neutral-300">
 	<TimerViewer seconds={timerSeconds} />
 
-	{#if message && pomodoro.intervalsLeft !== 0}
+	{#if stage === 'USER_CAN_START'}
 		<article class="flex flex-col items-center justify-center gap-4 font-semibold">
-			<p>{message}</p>
+			<MessageStep currentStep={pomodoro.currentStep} />
 
-			{#if !pomodoro.isRunning}
-				<div class="flex flex-col gap-4">
-					<button
-						class="rounded-md border-2 p-4 font-bold text-white filter backdrop-blur-sm transition-all hover:bg-white hover:text-neutral-800"
-						onclick={startStep}>Press to start</button
-					>
-				</div>
-			{/if}
+			<div class="flex flex-col gap-4">
+				<ButtonTimer onclick={startStep}>Press to start</ButtonTimer>
+			</div>
 		</article>
 	{/if}
 
-	{#if pomodoro.intervalsLeft === 0}
+	{#if stage === 'USER_CAN_PAUSE'}
+		<article class="flex flex-col items-center justify-center gap-4 font-semibold">
+			<MessageStep currentStep={pomodoro.currentStep} />
+
+			<div>
+				<ButtonTimer
+					onclick={() =>
+						pomodoroState.handlePomodoroUser({
+							isRunning: false
+						})}
+				>
+					Pause
+				</ButtonTimer>
+
+				<ButtonTimer onclick={() => pomodoroState.nextStep()}>Next step</ButtonTimer>
+			</div>
+		</article>
+	{/if}
+
+	{#if stage === 'CHANGE_CYCLE'}
 		<article class="flex flex-col items-center justify-center gap-4 font-semibold">
 			<p>Well done, you've completed a full cycle!</p>
 
-			<button
-				class="rounded-md border-2 p-4 font-bold text-white filter backdrop-blur-sm transition-all hover:bg-white hover:text-neutral-800"
-				onclick={() => pomodoroState.nextStep()}
-			>
+			<ButtonTimer onclick={() => pomodoroState.nextStep()}>
 				{#if pomodoro.cyclesLeft === 0}
 					<p>I want to restart all</p>
 				{:else}
 					<p>Next cycle</p>
 				{/if}
-			</button>
+			</ButtonTimer>
 		</article>
 	{/if}
 </section>
