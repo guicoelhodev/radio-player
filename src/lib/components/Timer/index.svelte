@@ -42,8 +42,6 @@
 			};
 		}
 	});
-
-	$inspect(pomodoro);
 </script>
 
 <section class="ml-20 flex flex-col gap-4 text-neutral-300">

@@ -13,6 +13,8 @@
 	let props = $props<{ closeModal: VoidFunction }>();
 	let setup = $derived(pomodoroState.getSetupPomodoro());
 	let tmpPomodoroSetup = $state<TPomodoroSetup>(JSON.parse(JSON.stringify(setup)));
+
+	let pomodoro = $derived(pomodoroState.getPomodoroUser());
 </script>
 
 <div
@@ -84,6 +86,15 @@ rounded-md p-4 filter backdrop-blur-3xl backdrop-contrast-200 sm:w-full sm:max-w
 				{/each}
 			</div>
 		</article>
+
+		{#if pomodoro.isSetted}
+			<article class="col-gap-4 grid w-full grid-cols-[1fr_auto] p-2 text-neutral-400">
+				<p>intervals remain</p>
+				<p>{pomodoro.intervalsLeft}</p>
+				<p>cycles remain</p>
+				<p>{pomodoro.cyclesLeft}</p>
+			</article>
+		{/if}
 
 		<footer class="flex w-full items-center justify-between pt-4">
 			<button
