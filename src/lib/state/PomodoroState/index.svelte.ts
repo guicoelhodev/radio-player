@@ -7,14 +7,16 @@ export class PomodoroState {
 		long: 0.5,
 		short: 0.25,
 		pomodoro: 0.5,
-		intervals: 2
+		intervals: 2,
+		cycles: 2
 	};
 
 	private POMODORO_USER_DEFAULT: T.TPomodoroUser = {
 		currentStep: 'pomodoro',
 		intervalsLeft: this.SETUP_DEFAULT.intervals,
-		isRunning: true,
-		isSetted: true
+		isRunning: false,
+		isSetted: true,
+		cyclesLeft: this.SETUP_DEFAULT.cycles - 1
 	};
 
 	private setup = $state<T.TPomodoroSetup>(this.SETUP_DEFAULT);
@@ -36,17 +38,41 @@ export class PomodoroState {
 		this.pomodoroUser = Object.assign(this.pomodoroUser, attr);
 	}
 
+
+	private handleCycles(tmpPomodoro: T.TPomodoroUser) {
+
+		tmpPomodoro.isRunning = true; // already start, instead click Start button 
+
+		if (tmpPomodoro.cyclesLeft === 0) {
+			tmpPomodoro = Object.assign(tmpPomodoro, {
+				cyclesLeft: this.setup.cycles - 1,
+				intervalsLeft: this.setup.intervals,
+			})
+		} else {
+			tmpPomodoro = Object.assign(tmpPomodoro, {
+				cyclesLeft: tmpPomodoro.cyclesLeft - 1,
+				intervalsLeft: this.setup.intervals,
+			})
+		};
+
+		return this.pomodoroUser = tmpPomodoro;
+	}
+
 	nextStep() {
-		if (this.pomodoroUser.intervalsLeft === 0) return
 
 		const step = this.pomodoroUser.currentStep;
 		const tmpPomodoro = this.pomodoroUser;
 
 		tmpPomodoro.isRunning = false;
 
+		if (this.pomodoroUser.intervalsLeft === 0) {
+			return this.handleCycles(tmpPomodoro)
+		}
+
 		if (step === 'idle') {
 			tmpPomodoro.currentStep = 'pomodoro';
 			return (this.pomodoroUser = Object.assign(this.pomodoroUser, tmpPomodoro));
+
 		} else if (step === 'short' || step === 'long') {
 			tmpPomodoro.currentStep = 'pomodoro';
 			tmpPomodoro.intervalsLeft -= 1;

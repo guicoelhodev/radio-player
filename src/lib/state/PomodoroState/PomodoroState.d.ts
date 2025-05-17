@@ -3,13 +3,15 @@ export type TPomodoroSetup = {
 	long: number;
 	pomodoro: number;
 	intervals: number;
+	cycles: number;
 };
 
-type TStep = 'idle' | 'short' | 'long' | 'pomodoro' | 'completed';
+type TStep = 'idle' | 'short' | 'long' | 'pomodoro';
 
 export type TPomodoroUser = {
 	currentStep: TStep;
 	isRunning: boolean;
-	intervalsLeft: number;
 	isSetted: boolean;
+	intervalsLeft: number;
+	cyclesLeft: number;
 };

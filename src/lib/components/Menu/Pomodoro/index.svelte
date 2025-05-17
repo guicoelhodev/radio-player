@@ -11,7 +11,7 @@
 	};
 
 	let props = $props<{ closeModal: VoidFunction }>();
-	let setup = pomodoroState.getSetupPomodoro();
+	let setup = $derived(pomodoroState.getSetupPomodoro());
 	let tmpPomodoroSetup = $state<TPomodoroSetup>(JSON.parse(JSON.stringify(setup)));
 </script>
 
@@ -42,7 +42,7 @@ rounded-md p-4 filter backdrop-blur-3xl backdrop-contrast-200 sm:w-full sm:max-w
 		</article>
 
 		<article class="flex flex-col gap-4">
-			<p>How many cycles before a long break?</p>
+			<p>How many intervals before a long break?</p>
 
 			<div class="flex justify-center gap-4">
 				{#each Array.from({ length: 4 }, (_, i) => Number(i + 2)) as interval (interval)}
@@ -60,7 +60,29 @@ rounded-md p-4 filter backdrop-blur-3xl backdrop-contrast-200 sm:w-full sm:max-w
 				{/each}
 			</div>
 
-			<span class="text-center text-sm text-neutral-400"> 1 cycle = pomodoro + short break </span>
+			<span class="text-center text-sm text-neutral-400">
+				1 interval = pomodoro + short break
+			</span>
+		</article>
+
+		<article class="flex flex-col gap-4">
+			<p>How many cycles do you want?</p>
+
+			<div class="flex justify-center gap-4">
+				{#each Array.from({ length: 3 }, (_, i) => Number(i + 1)) as cycles (cycles)}
+					<button
+						onclick={() => (tmpPomodoroSetup.cycles = cycles)}
+						class={twMerge(
+							'h-8 w-8 cursor-pointer rounded-full border transition-colors',
+							cycles === tmpPomodoroSetup.cycles
+								? 'border-neutral-200 bg-neutral-200 text-neutral-800'
+								: ''
+						)}
+					>
+						{cycles}
+					</button>
+				{/each}
+			</div>
 		</article>
 
 		<footer class="flex w-full items-center justify-between pt-4">
@@ -92,6 +114,10 @@ rounded-md p-4 filter backdrop-blur-3xl backdrop-contrast-200 sm:w-full sm:max-w
 				class="rounded-full p-2 transition-all hover:bg-white hover:text-neutral-800"
 				onclick={() => {
 					pomodoroState.handleSetup(tmpPomodoroSetup);
+					pomodoroState.handlePomodoroUser({
+						cyclesLeft: tmpPomodoroSetup.cycles - 1,
+						intervalsLeft: tmpPomodoroSetup.intervals
+					});
 					return props.closeModal();
 				}}
 			>
