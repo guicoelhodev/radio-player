@@ -8,7 +8,7 @@
 	const pomodoroState = PomodoroState.getInstance();
 
 	const pomodoro = pomodoroState.getPomodoroUser();
-	const setup = pomodoroState.getSetupPomodoro();
+	const setup = $derived(pomodoroState.getSetupPomodoro());
 
 	let timerSeconds = $state(pomodoroState.getSetupPomodoro().pomodoro * 60);
 	let stage = $derived(getStage());
@@ -30,20 +30,23 @@
 
 		const isTimerInit = setup[pomodoro.currentStep as TKeySetup] === timerSeconds / 60;
 
-		if (pomodoro.isRunning && !isTimerInit) return 'USER_CAN_PAUSE';
+		if (pomodoro.isPausedByUser) return 'USER_HAS_PAUSED';
 		if (!pomodoro.isRunning && isTimerInit) return 'USER_CAN_START';
 
-		return '';
+		return 'USER_CAN_PAUSE';
 	}
 
+	$inspect(stage);
+	$inspect(pomodoro);
+
 	$effect(() => {
-		if (!pomodoro.isSetted || !pomodoro.isRunning) return;
+		if (!pomodoro.isRunning) return;
 
 		if (timerSeconds === 0) {
 			pomodoroState.nextStep();
 			getTimerByStep();
-		} else {
-			const intervalId = setInterval(() => (timerSeconds -= 1), 100);
+		} else if (!pomodoro.isPausedByUser) {
+			const intervalId = setInterval(() => (timerSeconds -= 1), 1000);
 
 			return () => {
 				clearInterval(intervalId);
@@ -69,18 +72,35 @@
 		<article class="flex flex-col items-center justify-center gap-4 font-semibold">
 			<MessageStep currentStep={pomodoro.currentStep} />
 
-			<div>
+			<div class="grid grid-cols-2 gap-4">
 				<ButtonTimer
 					onclick={() =>
 						pomodoroState.handlePomodoroUser({
-							isRunning: false
+							isRunning: false,
+							isPausedByUser: true
 						})}
 				>
 					Pause
 				</ButtonTimer>
 
-				<ButtonTimer onclick={() => pomodoroState.nextStep()}>Next step</ButtonTimer>
+				<ButtonTimer
+					onclick={() => {
+						pomodoroState.nextStep();
+						return (timerSeconds = setup[pomodoro.currentStep as TKeySetup] * 60);
+					}}>Next step</ButtonTimer
+				>
 			</div>
+		</article>
+	{/if}
+
+	{#if stage === 'USER_HAS_PAUSED'}
+		<article class="grid w-full grid-cols-1 justify-center gap-4 font-semibold">
+			<p class="text-center">Ready to coninue?</p>
+			<ButtonTimer
+				onclick={() => pomodoroState.handlePomodoroUser({ isRunning: true, isPausedByUser: false })}
+			>
+				Continue
+			</ButtonTimer>
 		</article>
 	{/if}
 

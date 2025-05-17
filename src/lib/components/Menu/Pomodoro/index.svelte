@@ -87,14 +87,12 @@ rounded-md p-4 filter backdrop-blur-3xl backdrop-contrast-200 sm:w-full sm:max-w
 			</div>
 		</article>
 
-		{#if pomodoro.isSetted}
-			<article class="col-gap-4 grid w-full grid-cols-[1fr_auto] p-2 text-neutral-400">
-				<p>intervals remain</p>
-				<p>{pomodoro.intervalsLeft}</p>
-				<p>cycles remain</p>
-				<p>{pomodoro.cyclesLeft}</p>
-			</article>
-		{/if}
+		<article class="col-gap-4 grid w-full grid-cols-[1fr_auto] p-2 text-neutral-400">
+			<p>intervals remain</p>
+			<p>{pomodoro.intervalsLeft}</p>
+			<p>cycles remain</p>
+			<p>{pomodoro.cyclesLeft}</p>
+		</article>
 
 		<footer class="flex w-full items-center justify-between pt-4">
 			<button

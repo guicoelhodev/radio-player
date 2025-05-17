@@ -11,7 +11,7 @@ type TStep = 'idle' | 'short' | 'long' | 'pomodoro';
 export type TPomodoroUser = {
 	currentStep: TStep;
 	isRunning: boolean;
-	isSetted: boolean;
 	intervalsLeft: number;
 	cyclesLeft: number;
+	isPausedByUser: boolean
 };

@@ -15,8 +15,8 @@ export class PomodoroState {
 		currentStep: 'pomodoro',
 		intervalsLeft: this.SETUP_DEFAULT.intervals,
 		isRunning: false,
-		isSetted: true,
-		cyclesLeft: this.SETUP_DEFAULT.cycles - 1
+		cyclesLeft: this.SETUP_DEFAULT.cycles - 1,
+		isPausedByUser: false
 	};
 
 	private setup = $state<T.TPomodoroSetup>(this.SETUP_DEFAULT);
@@ -64,6 +64,7 @@ export class PomodoroState {
 		const tmpPomodoro = this.pomodoroUser;
 
 		tmpPomodoro.isRunning = false;
+		tmpPomodoro.isPausedByUser = false;
 
 		if (this.pomodoroUser.intervalsLeft === 0) {
 			return this.handleCycles(tmpPomodoro)
