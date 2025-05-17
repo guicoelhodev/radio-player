@@ -35,7 +35,7 @@
 			pomodoroState.nextStep();
 			getTimerByStep();
 		} else {
-			const intervalId = setInterval(() => (timerSeconds -= 1), 200);
+			const intervalId = setInterval(() => (timerSeconds -= 1), 1000);
 
 			return () => {
 				clearInterval(intervalId);

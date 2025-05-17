@@ -4,10 +4,10 @@ export class PomodoroState {
 	private static INSTANCE: PomodoroState;
 
 	private SETUP_DEFAULT: T.TPomodoroSetup = {
-		long: 0.5,
-		short: 0.25,
-		pomodoro: 0.5,
-		intervals: 2,
+		long: 15,
+		short: 5,
+		pomodoro: 25,
+		intervals: 3,
 		cycles: 2
 	};
 
