@@ -1,11 +1,11 @@
 export type TPomodoroSetup = {
-	shortBreak: number;
-	longBreak: number;
+	short: number;
+	long: number;
 	pomodoro: number;
 	intervals: number;
 };
 
-type TStep = 'idle' | 'short' | 'long' | 'pomodoro';
+type TStep = 'idle' | 'short' | 'long' | 'pomodoro' | 'completed';
 
 export type TPomodoroUser = {
 	currentStep: TStep;

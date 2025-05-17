@@ -1,26 +1,31 @@
 <script lang="ts">
 	import { PomodoroState } from '$lib/state/PomodoroState/index.svelte';
+	import type { TStep } from '$lib/state/PomodoroState/PomodoroState';
 	import { getTimeFormat } from '$lib/utils/getTimeFormat';
 
-	let timerSeconds = $state(3600);
-
 	const pomodoroState = PomodoroState.getInstance();
+	const pomodoro = $derived(pomodoroState.getPomodoroUser());
+	const setup = $derived(pomodoroState.getSetupPomodoro());
 
-	let pomodoro = $derived(pomodoroState.getPomodoroUser());
+	let timerSeconds = $state(pomodoroState.getSetupPomodoro().pomodoro * 60);
+
+	function getTimerByStep() {
+		const newTImer = setup[pomodoro.currentStep as keyof typeof setup] * 60;
+		return (timerSeconds = newTImer);
+	}
 
 	$effect(() => {
 		if (!pomodoro.isSetted || !pomodoro.isRunning) return;
 
-		if (timerSeconds > 0) {
-			const intervalId = setInterval(() => (timerSeconds -= 1), 1000);
+		if (timerSeconds === 0) {
+			pomodoroState.nextStep();
+			getTimerByStep();
+		} else {
+			const intervalId = setInterval(() => (timerSeconds -= 1), 200);
 
 			return () => {
 				clearInterval(intervalId);
 			};
-		} else {
-			pomodoroState.handlePomodoroUser({
-				isRunning: false
-			});
 		}
 	});
 
@@ -30,6 +35,21 @@
 		'p-4 text-white font-bold border-2 rounded-md filter backdrop-blur-sm hover:bg-white hover:text-neutral-800 transition-all';
 
 	const t = $derived(getTimeFormat(timerSeconds));
+
+	function startStep() {
+		if (pomodoro.currentStep === 'idle') {
+			pomodoroState.nextStep();
+		}
+		return pomodoroState.handlePomodoroUser({ isRunning: true });
+	}
+
+	const messageByStep = {
+		pomodoro: 'work time',
+		short: 'Great job, take a rest',
+		long: 'Breath deep, its time to get a long rest'
+	};
+
+	const message = $derived(messageByStep[pomodoro.currentStep as keyof typeof messageByStep]);
 </script>
 
 <section class="ml-20 flex flex-col gap-4 text-neutral-300">
@@ -55,13 +75,16 @@
 			<p>{t.seconds}</p>
 		</div>
 	</header>
-	<article>
-		{#if pomodoro.currentStep === 'idle'}
-			<button
-				onclick={() =>
-					pomodoroState.handlePomodoroUser({ currentStep: 'pomodoro', isRunning: true })}
-				class={buttonStyle}>START</button
-			>
-		{/if}
-	</article>
+
+	{#if message && pomodoro.intervalsLeft !== 0}
+		<article class="flex flex-col items-center justify-center gap-4 font-semibold">
+			<p>{message}</p>
+
+			{#if !pomodoro.isRunning}
+				<div class="flex flex-col gap-4">
+					<button class={buttonStyle} onclick={startStep}>Start</button>
+				</div>
+			{/if}
+		</article>
+	{/if}
 </section>
