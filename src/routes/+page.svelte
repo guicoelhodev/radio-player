@@ -8,6 +8,14 @@
 <div class="relative">
 	<main class="relative grid h-screen w-screen grid-cols-[1fr_5rem] grid-rows-[1fr_5rem]">
 		<section class="flex items-center justify-center">
+			<a
+				class="absolute top-4 left-4 text-xl font-extrabold text-white sm:text-2xl"
+				aria-label="link to github project"
+				href="https://github.com/guicoelhodev/radio-player"
+				target="_blank"
+			>
+				&lt;guicoelhodev /&gt;
+			</a>
 			<Timer />
 		</section>
 		<section class="flex justify-center p-2 sm:items-center">
