@@ -12,9 +12,16 @@
 
 	let timerSeconds = $state(pomodoroState.getSetupPomodoro().pomodoro * 60);
 	let stage = $derived(getStage());
+	let audioBeep = $state<HTMLMediaElement | null>(null);
 
 	function getTimerByStep() {
 		const newTImer = setup[pomodoro.currentStep as keyof typeof setup] * 60;
+
+		if (!audioBeep) {
+			audioBeep = new Audio('/mp3/beep.mp3');
+		}
+
+		audioBeep.play();
 		return (timerSeconds = newTImer);
 	}
 
@@ -36,9 +43,6 @@
 		return 'USER_CAN_PAUSE';
 	}
 
-	$inspect(stage);
-	$inspect(pomodoro);
-
 	$effect(() => {
 		if (!pomodoro.isRunning) return;
 
@@ -46,7 +50,7 @@
 			pomodoroState.nextStep();
 			getTimerByStep();
 		} else if (!pomodoro.isPausedByUser) {
-			const intervalId = setInterval(() => (timerSeconds -= 1), 1000);
+			const intervalId = setInterval(() => (timerSeconds -= 1), 10);
 
 			return () => {
 				clearInterval(intervalId);
