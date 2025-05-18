@@ -50,7 +50,7 @@
 			pomodoroState.nextStep();
 			getTimerByStep();
 		} else if (!pomodoro.isPausedByUser) {
-			const intervalId = setInterval(() => (timerSeconds -= 1), 10);
+			const intervalId = setInterval(() => (timerSeconds -= 1), 1000);
 
 			return () => {
 				clearInterval(intervalId);
