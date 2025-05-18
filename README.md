@@ -1,38 +1,24 @@
-# sv
+<div align='center'>
+<img src="./.github/radio_wallpaper.png" alt="Home page wallpaper" />
+<br />
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+<h3>Stay calm and relax</h3>
 
-## Creating a project
+[![Status - Done](https://img.shields.io/badge/Status-Done-green?style=for-the-badge)](/docs/ 'Go to project documentation')
 
-If you're seeing this, you've probably already done this step. Congrats!
+<p>Want to see the app? <a target="_blank" href='https://radio.guicoelhodev.com'>click here</a>
+</div>
 
-```bash
-# create a new project in the current directory
-npx sv create
+<br />
 
-# create a new project in my-app
-npx sv create my-app
-```
+<p>This project is a complete <b>Pomodoro application</b> combined with <b>radio streaming</b>. Stay focused while enjoying great music — no login or setup required.</p>
 
-## Developing
+<p>
+This project was only possible thanks to the use of the <a href="https://www.radio-browser.info/" target="_blank">Radio Browser API</a>. Check them out to see more information about their <b>open source service</b>.
+</p>
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+<b>Made with ❤️ by
+<a href="https://www.linkedin.com/in/guicoelhodev/" target="_blank">
+guicoelhodev
+</a>
+</b>
