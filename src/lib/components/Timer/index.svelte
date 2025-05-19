@@ -7,7 +7,7 @@
 	type TKeySetup = keyof typeof setup;
 	const pomodoroState = PomodoroState.getInstance();
 
-	const pomodoro = pomodoroState.getPomodoroUser();
+	const pomodoro = $derived(pomodoroState.getPomodoroUser());
 	const setup = $derived(pomodoroState.getSetupPomodoro());
 
 	let timerSeconds = $state(pomodoroState.getSetupPomodoro().pomodoro * 60);
@@ -44,7 +44,11 @@
 	}
 
 	$effect(() => {
-		if (!pomodoro.isRunning) return;
+		if (!pomodoro.isRunning) {
+			const secBySetup = setup[pomodoro.currentStep as TKeySetup];
+			timerSeconds = secBySetup * 60;
+			return;
+		}
 
 		if (timerSeconds === 0) {
 			pomodoroState.nextStep();

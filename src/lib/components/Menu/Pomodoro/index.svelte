@@ -125,7 +125,8 @@ rounded-md p-4 filter backdrop-blur-3xl backdrop-contrast-200 sm:w-full sm:max-w
 					pomodoroState.handleSetup(tmpPomodoroSetup);
 					pomodoroState.handlePomodoroUser({
 						cyclesLeft: tmpPomodoroSetup.cycles - 1,
-						intervalsLeft: tmpPomodoroSetup.intervals
+						intervalsLeft: tmpPomodoroSetup.intervals,
+						isRunning: false
 					});
 					return props.closeModal();
 				}}
