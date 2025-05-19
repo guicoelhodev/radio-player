@@ -34,8 +34,10 @@ rounded-md p-4 filter backdrop-blur-3xl backdrop-contrast-200 sm:w-full sm:max-w
 					</label>
 					<input
 						type="number"
+						inputmode="numeric"
 						id={`label_${key}`}
 						max="60"
+						min="1"
 						bind:value={tmpPomodoroSetup[key as keyof typeof setup]}
 						class="w-20 rounded-md border p-2 text-center"
 					/>
@@ -122,6 +124,15 @@ rounded-md p-4 filter backdrop-blur-3xl backdrop-contrast-200 sm:w-full sm:max-w
 				title="Setup pomodoro"
 				class="rounded-full p-2 transition-all hover:bg-white hover:text-neutral-800"
 				onclick={() => {
+					const isInvalidInput = Object.keys(tmpPomodoroSetup).some((i) => {
+						const value = tmpPomodoroSetup[i as keyof typeof tmpPomodoroSetup];
+						return value < 1 || value > 60;
+					});
+
+					if (isInvalidInput) {
+						return alert(`The input needs to be a number between 1 and 60`);
+					}
+
 					pomodoroState.handleSetup(tmpPomodoroSetup);
 					pomodoroState.handlePomodoroUser({
 						cyclesLeft: tmpPomodoroSetup.cycles - 1,
