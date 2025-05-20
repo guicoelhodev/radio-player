@@ -37,14 +37,14 @@
 
 		const isTimerInit = setup[pomodoro.currentStep as TKeySetup] === timerSeconds / 60;
 
+		if (!pomodoro.isRunning && !pomodoro.isPausedByUser && isTimerInit) return 'USER_CAN_START';
 		if (pomodoro.isPausedByUser) return 'USER_HAS_PAUSED';
-		if (!pomodoro.isRunning && isTimerInit) return 'USER_CAN_START';
 
 		return 'USER_CAN_PAUSE';
 	}
 
 	$effect(() => {
-		if (!pomodoro.isRunning) {
+		if (!pomodoro.isRunning && !pomodoro.isPausedByUser) {
 			const secBySetup = setup[pomodoro.currentStep as TKeySetup];
 			timerSeconds = secBySetup * 60;
 			return;
